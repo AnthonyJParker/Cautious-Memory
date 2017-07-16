@@ -68,7 +68,7 @@ int NmeaInterval;
 //************************************************************************************************************
 #define GPSBAUD 9600                             //19200 // Olimex GPS baudrate
 
-const int chipSelect_SD_default = 36;        // Change to suit your board // Default SD chip select for Pinguino Micro 51, OTG 36, Sheild 10
+const int chipSelect_SD_default = 36;        // Change to suit your board // Default SD chip select for Pinguino Micro 51, OTG 36, Shield 10
 const int chipSelect_SD = chipSelect_SD_default;
 char sd[32];                                                  // date
 char fsd[32];                                                 // filename date
