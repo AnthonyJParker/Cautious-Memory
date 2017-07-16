@@ -3,23 +3,25 @@
      on PinguinoOTG also with DX TFT display shield    
      NOTE uses SDfat faster storage library
     
-     revised  8 July 2017 Anthony Parker
+     revised  15 July 2017 Anthony Parker
  
        NOTE: requires a file "SETUP.TXT" to be on the SD card
 **** SETUP.TXT*****
 
-    ' SETUP.TXT, setup details for PinginoOTGgpslog sketch.
-    ' GPS Tracker
-    ' For updates and notes etc
+    ' SETUP.TXT, setup details for PinginoOTG GPS logging sketch.
+    ' GPS Logging
     ' Anything after a single quote (') is ignored as a comment.
-    ' For example,  TZ +9.5  is Australian Central Standard Time which is nine and a half hours ahead of UTC.
      TZ +10       ' this is Australian Eastern Standard Time.
-
      KML 5        ' record a Google Earth KML track every five seconds (zero means default at 1 second).
      KMLMARK 60   ' place an interval pin every minute (ie, 60 seconds).
-     NMEA 0       ' record a the NMEA data every this number of seconds.
+     NMEA 0       ' record a the NMEA data every this number of seconds (zero means default at 1 second).
 
 **** END SETUP.TXT****
+* Notes:
+* UECIDE 0.8.9-pre14
+* Board:          https://:www.olimex.com/Products/Duino/PIC32/PIC32-PINGUINO-OTG/open-source-hardware 
+* GPS:             https:www.olimex.com/Products/Modules/GPS/
+* TFT display: http://www.dx.com/p/3-5-inch-tft-color-screen-module-320-x-480-ultra-hd-for-arduino-uno-r3-mega2560-black-425809#.WWW3Ft8xC9I
 */
 # include <TinyGPS.h>   									       // include the TinyGPS library:
 # include <DSPI.h>
@@ -144,9 +146,9 @@ void setup() {
   	tft.setTextWrap(false);
   	tft.setRotation(1);
   	tft.fillScreen(Color::Black);
-  	tft.setTextColor(Color::Green);
+  	tft.setTextColor(Color::Yellow);
     tft.setCursor(5, 15);
-    tft.setFont(Fonts::Liberation24);
+    tft.setFont(Fonts::Liberation22);
   	tft.println("GPS log v0.1");
   
      pinMode(StatusLED, OUTPUT); 								// StatusLED pin  
@@ -259,7 +261,7 @@ void loop() {
 
 //----------------------------------------TXT file write------------------------------------
         write_txt();                                              // update the text file data
-//---------------------------------------------end file writes-----------------------------
+//----------------------------------------end file writes------------------------------------
     //digitalWrite(2, LOW);                                   // may blink a LED
     km = km + 1;                                              // update the KmlMarkInterval loop counter
     k = k + 1;                                                // update the KmlInterval loop counter
@@ -364,7 +366,6 @@ void loop() {
   		        hour, minute, second);
   		Serial.print(st); // date and time here
   	}
-  
   	print_int(age, TinyGPS::GPS_INVALID_AGE, 5);
   	smartdelay(0);
   }//~
@@ -378,7 +379,7 @@ void loop() {
 // static void conv_float(float val)
 // *****************************************************************************
   void conv_floatspc(float val) {
-    sprintf(spc,"%03.1f",val);
+    sprintf(spc, "%03d", (int)val); //180
   }//~
 // *****************************************************************************
 // static void conv_float(float val)
@@ -448,6 +449,8 @@ void loop() {
       myFile2.print(spc);
       myFile2.print(",");
       conv_floatspd(gps.f_speed_knots());
+	//conv_floatspd(gps.f_speed_mph());
+        //conv_floatspd(gps.f_speed_kmph());
       myFile2.print(spd);
       myFile2.print(",");
       conv_float(gps.f_altitude());
@@ -556,9 +559,8 @@ void loop() {
   void Update_File_Exist(char filename[20],int mF)
   {
     for (uint8_t i=0; i < MAX_LOG_FILES; i++)
-    {
-                                                                                         // Set logFileName to "DD_MMvXX.txt":
-      filename[6] = (i/10) + '0';
+    {                         
+      filename[6] = (i/10) + '0';                                                   // Set logFileName to "DD_MMvXX.txt":
       filename[7] = (i%10) + '0';
   
       if (!SD.exists(filename))
@@ -635,14 +637,12 @@ void loop() {
           if(!ic && !(pc == ' ' && c == ' ')) { SBuf[i++] = c; }             // if we are not in a comment and it is not multiple spaces save the char in our buffer
           pc = c;                                                            // this is used to detect multiple space chars (which we do not want)
         }
-  
         SBuf[i] = 0;                                                         // terminate the string retrieved
         myFile.close();                                                      // close the file
       }
   
       for(p = SBuf; *p; p++) {                                               // convert the string loaded from the configuration file to a format ready for scanning
         if(!isalnum(*p) && *p != '-' && *p != '.') { *p = ' '; }
-  
         *p = toupper(*p);
       }                                                                      // load the configuration data
       if(strstr(SBuf, "TZ ")) { TimeZone = atof(strstr(SBuf, "TZ ") + 3); }
@@ -672,20 +672,22 @@ void loop() {
 // void printTotft()
 // *****************************************************************************
   void printTotft() {
+    tft.setTextColor(Color::Green);
     tft.setFont(Fonts::Liberation30);
     tft.setCursor(5, 65);
     tft.print("LAT:  ");
     //tft.println(flat,6);
-    tft.println(bufflat);                                                    // print to screen in ddd mm ss format
+    tft.print(bufflat); 
+    tft.println(" ");// print to screen in ddd mm ss format
     tft.setCursor(5, 120);
     tft.print("LON: ");
    // tft.println(flon,6);
-    tft.println(bufflon);                                                    // print to screen in ddd mm ss format
+    tft.print(bufflon); 
+    tft.println(" ");// print to screen in ddd mm ss format
     conv_float(gps.f_course());
     tft.setCursor(5, 175);
     tft.print("HDG: ");
     tft.print(sp);
-    //tft.printf("%s\xf8",sp);                                               // degree symbol ???????????????????
     tft.println(" T     ");
     tft.println((char)223);                                                  // degree symbol ???????????????????
     conv_float(gps.f_speed_knots());
@@ -694,6 +696,7 @@ void loop() {
     tft.print(sp);
     tft.println(" Kts    ");
     tft.setCursor(5, 280);
+    tft.setTextColor(Color::Yellow);
     tft.setFont(Fonts::Liberation18);
     tft.print("Date: ");
     tft.print(sd);
