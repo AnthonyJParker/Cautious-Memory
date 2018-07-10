@@ -1,6 +1,8 @@
 # Cautious-Memory
-My code on PIC32
+My code on various PIC32 boards
 
-Projects for the Olimex PinguinoOTG PIC32 board
+Using UECIDE
 
-Projects for the MikroElektronika mikromedia Plus pic32mx7
+Projects for the Olimex PinguinoOTG PIC32MX440
+
+Projects for the MikroElektronika mikromedia+ PIC32MX7
