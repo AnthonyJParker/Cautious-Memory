@@ -1,0 +1,7 @@
+    ' SETUP.TXT, setup details for PinginoOTG GPS log sketch.
+    ' GPS Logging
+    ' Anything after a single quote (') is ignored as a comment.
+     TZ +10       ' this is Australian Eastern Standard Time.
+     KML 5        ' record a Google Earth KML track every five seconds (zero means default at 1 second).
+     KMLMARK 60   ' place an interval pin every minute (ie, 60 seconds).
+     NMEA 0       ' record a the NMEA data every this number of seconds (zero means default at 1 second).
