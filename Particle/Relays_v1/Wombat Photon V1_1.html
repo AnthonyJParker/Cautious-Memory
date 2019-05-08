@@ -1,0 +1,384 @@
+<!DOCTYPE HTML>
+<html>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js" type="text/javascript" charset="utf-8"></script>
+  
+  <style> 
+	body {
+		font-family: arial, helvetica, sans-serif;
+		font-size: 14px;
+		color: black;
+ 	    background-color: #ffc;
+		margin: 20px;
+		padding: 4px;
+		width: 900px;
+		height: 600px;
+	}
+	
+ .button {
+  display: inline-block;
+  border-radius: 4px;
+  background-color: red;
+  border: none;
+  color: #FFFFFF;
+  text-align: center;
+  font-size: 20px;
+  padding: 10px;
+  width: 200px;
+  transition: all 0.5s;
+  cursor: pointer;
+  margin: 5px;
+}
+
+<!---->
+	/* This is a comment, by the way */
+
+	p {
+		line-height: 21px;
+	}
+
+	h1 {
+		color: #ffc;
+		background-color: #900;<!--#0066ff; #900 dark red-->
+		font-size: 2em;
+		margin: 0 auto;
+		margin-bottom: 7px;
+		padding: 4px;
+		font-style: italic;
+		text-align: center;
+		letter-spacing: 0.5em;
+		border-bottom-style: solid;
+		border-bottom-width: 0.5em;
+		border-bottom-color: #000099;<!-- #c00 deep red -->
+	}
+
+	h2 {
+		color: white;
+		background-color: #CC3300;<!--#0066ff;#CC3300; #090 green-->
+		font-size: 1.5em;
+		margin: 0;
+		margin-bottom: 7px;
+		padding: 4px;
+		padding-left: 5px;
+		text-align: center;
+		width: 890px;
+
+	}
+
+	h3 {
+		color: #000099;<!-- #900 dark red-->
+		font-size: 1.25em;
+	}
+
+	img {
+		border-style: none; <!--dashed;-->
+		border-width: 2px;
+		border-color: #ccc;
+	}
+
+	a {
+		text-decoration: none;
+	}
+
+	strong {
+		font-style: italic;
+		text-transform: uppercase;
+	}
+
+	li {
+		color: #900;
+		font-style: italic;
+	}
+
+	table {
+		background-color: #ccc;
+	}
+
+   </style>
+
+   <style>
+        .txt_block1 {
+            border: 1px solid blue;<!--red;-->
+            width: 170px;
+            height: 100px;
+            padding-left: 10px;
+            float: left;
+			margin-right: 20px;
+        }
+	   .txt_block2 {
+            border: 1px solid blue;<!--red;-->
+            width: 170px;
+            height: 100px;
+            padding-left: 10px;
+            float: left;
+			margin-right: 0;
+        }
+
+		#textmain {
+			width: 900px;
+			height: 100px;
+			border: 1px solid #c3c3c3;
+			display: -webkit-flex; /* Safari */
+			-webkit-justify-content: space-around; /* Safari 6.1+ */
+			display: flex;
+			justify-content: space-around;
+		}
+
+		#textmain div {
+			width: 170px;
+			height: 90px;
+		}
+    </style>
+
+<body>
+    <h1>WOMBAT HOLLOW</h1>
+    <h2>                     </h2>
+    <h2>Automation via WEB & WiFi v1.3</h2>
+	<div style = "float: left; margin-right: 80px;"><!--create all the buttons-->
+    <br>
+	<button id="D0button" class="button" name="args" value="0l" onclick="switchD0()" value="OFF" >D0 off</button> 
+    <br><br>
+	<button id="D1button" class="button" name="args" value="0l" onclick="switchD1()" value="OFF" >D1 off</button> 
+	<br><br>
+	<button id="D2button" class="button" name="args" value="0l" onclick="switchD2()" value="OFF" >D2 off</button> 
+    <br><br>
+	<button id="D3button" class="button" name="args" value="0l" onclick="switchD3()" value="OFF" >D3 off</button> 
+	<br><br>
+	<button id="D7button" class="button" name="args" value="0l" onclick="switchD7()" value="OFF" >D7 off</button> 
+	<br><br>
+	</div>
+
+  <!--Spark.function("led_on", led_on);-->
+    <script type="text/javascript">
+	
+	    var deviceID    = "1f0029001347343339383037"; //CORE
+        var accessToken = "ad630c73f52daa9eef2c187aa29d5b0a024cbe33";
+		var setFunc = "led_on";
+        var paramStr ;
+
+function switchD0() {
+	  var bodo=document.getElementById("D0button");						 <!-- use bodo as element to change
+	  var x = document.getElementById("D0button").getAttribute("value"); <!-- get the value of the button
+	  if( x == 'OFF'){
+	  bodo.style.backgroundColor = 'lime';                               <!-- use the value to change colour
+	  document.getElementById("D0button").setAttribute("value","ON");    <!-- use the value ON/OFF to change colour
+	  bodo.firstChild.data = "D0 on";                                    <!-- change the text on the button
+	    paramStr = "0h";												 <!-- now send the 1h to the photon
+		var requestURL = "https://api.particle.io/v1/devices/" +deviceID + "/" + setFunc + "/";
+			$.post( requestURL, { params: paramStr, access_token: accessToken },function( data ) {
+		//alert( "Data Loaded: " + data );
+		obj = JSON.parse(data);
+		document.getElementById("Return").innerHTML = obj.return_value;
+		});
+	  } else {
+	  var bodo=document.getElementById("D0button");
+	  bodo.style.backgroundColor = 'red';
+	  document.getElementById("D0button").setAttribute("value","OFF");
+	  bodo.firstChild.data = "D0 off";
+		paramStr = "0l";
+		var requestURL = "https://api.particle.io/v1/devices/" +deviceID + "/" + setFunc + "/";
+				$.post( requestURL, { params: paramStr, access_token: accessToken },function( data ) {
+		//alert( "Data Loaded: " + data );
+		obj = JSON.parse(data);
+		document.getElementById("Return").innerHTML = obj.return_value;
+		});
+	  }<!-- end if/else
+	var x = document.getElementById("D0button").getAttribute("value");   <!-- get the value of the button  
+	document.getElementById("demo").innerHTML = x;                       <!-- show the value on the web page
+   } <!-- end function
+   
+function switchD1() {
+	  var bodo=document.getElementById("D1button");
+	  var x = document.getElementById("D1button").getAttribute("value"); <!-- get the value of the button
+	  if( x == 'OFF'){
+	  bodo.style.backgroundColor = 'lime';                               <!-- use the value to change colour
+	  document.getElementById("D1button").setAttribute("value","ON");    <!-- use the value ON/OFF to change colour
+	  bodo.firstChild.data = "D1 on";                                    <!-- change the text on the button
+	    paramStr = "1h";												 <!-- now send the 1h to the photon
+		var requestURL = "https://api.particle.io/v1/devices/" +deviceID + "/" + setFunc + "/";
+			$.post( requestURL, { params: paramStr, access_token: accessToken },function( data ) {
+		//alert( "Data Loaded: " + data );
+		obj = JSON.parse(data);
+		document.getElementById("Return").innerHTML = obj.return_value;
+		});
+	  } else {
+	  var bodo=document.getElementById("D1button");
+	  bodo.style.backgroundColor = 'red';
+	  document.getElementById("D1button").setAttribute("value","OFF");
+	  bodo.firstChild.data = "D1 off";
+		paramStr = "1l";
+		var requestURL = "https://api.particle.io/v1/devices/" +deviceID + "/" + setFunc + "/";
+				$.post( requestURL, { params: paramStr, access_token: accessToken },function( data ) {
+		//alert( "Data Loaded: " + data );
+		obj = JSON.parse(data);
+		document.getElementById("Return").innerHTML = obj.return_value;
+		});
+	  }<!-- end if/else
+	var x = document.getElementById("D1button").getAttribute("value");   <!-- get the value of the button  
+	document.getElementById("demo").innerHTML = x;                       <!-- show the value on the web page
+   } <!-- end function
+
+function switchD2() {
+	  var bodo=document.getElementById("D2button");
+	  var x = document.getElementById("D2button").getAttribute("value"); <!-- get the value of the button
+	  if( x == 'OFF'){
+	  bodo.style.backgroundColor = 'lime';                               <!-- use the value to change colour
+	  document.getElementById("D2button").setAttribute("value","ON");    <!-- use the value ON/OFF to change colour
+	  bodo.firstChild.data = "D2 on";                                    <!-- change the text on the button
+	    paramStr = "2h";										   	     <!-- now send the 1h to the photon
+		var requestURL = "https://api.particle.io/v1/devices/" +deviceID + "/" + setFunc + "/";
+			$.post( requestURL, { params: paramStr, access_token: accessToken },function( data ) {
+		//alert( "Data Loaded: " + data );
+		obj = JSON.parse(data);
+		document.getElementById("Return").innerHTML = obj.return_value;
+		});
+	  } else {
+	  var bodo=document.getElementById("D2button");
+	  bodo.style.backgroundColor = 'red';
+	  document.getElementById("D2button").setAttribute("value","OFF");
+	  bodo.firstChild.data = "D2 off";
+		paramStr = "2l";
+		var requestURL = "https://api.particle.io/v1/devices/" +deviceID + "/" + setFunc + "/";
+				$.post( requestURL, { params: paramStr, access_token: accessToken },function( data ) {
+		//alert( "Data Loaded: " + data );
+		obj = JSON.parse(data);
+		document.getElementById("Return").innerHTML = obj.return_value;
+		});
+	  }<!-- end if/else
+	var x = document.getElementById("D2button").getAttribute("value");   <!-- get the value of the button  
+	document.getElementById("demo").innerHTML = x;                       <!-- show the value on the web page
+   } <!-- end function
+
+function switchD3() {
+	  var bodo=document.getElementById("D3button");
+	  var x = document.getElementById("D3button").getAttribute("value"); <!-- get the value of the button
+	  if( x == 'OFF'){
+	  bodo.style.backgroundColor = 'lime';                               <!-- use the value to change colour
+	  document.getElementById("D3button").setAttribute("value","ON");    <!-- use the value ON/OFF to change colour
+	  bodo.firstChild.data = "D3 on";                                    <!-- change the text on the button
+	    paramStr = "3h";												 <!-- now send the 1h to the photon
+		var requestURL = "https://api.particle.io/v1/devices/" +deviceID + "/" + setFunc + "/";
+			$.post( requestURL, { params: paramStr, access_token: accessToken },function( data ) {
+		//alert( "Data Loaded: " + data );
+		obj = JSON.parse(data);
+		document.getElementById("Return").innerHTML = obj.return_value;
+		});
+	  } else {
+	  var bodo=document.getElementById("D3button");
+	  bodo.style.backgroundColor = 'red';
+	  document.getElementById("D3button").setAttribute("value","OFF");
+	  bodo.firstChild.data = "D3 off";
+		paramStr = "3l";
+		var requestURL = "https://api.particle.io/v1/devices/" +deviceID + "/" + setFunc + "/";
+				$.post( requestURL, { params: paramStr, access_token: accessToken },function( data ) {
+		//alert( "Data Loaded: " + data );
+		obj = JSON.parse(data);
+		document.getElementById("Return").innerHTML = obj.return_value;
+		});
+	  }<!-- end if/else
+	var x = document.getElementById("D3button").getAttribute("value");   <!-- get the value of the button  
+	document.getElementById("demo").innerHTML = x;                       <!-- show the value on the web page
+   } <!-- end function
+
+function switchD7() {
+	  var bodo=document.getElementById("D7button");
+	  var x = document.getElementById("D7button").getAttribute("value"); <!-- get the value of the button
+	  if( x == 'OFF'){
+	  bodo.style.backgroundColor = 'lime';                               <!-- use the value to change colour
+	  document.getElementById("D7button").setAttribute("value","ON");    <!-- use the value ON/OFF to change colour
+	  bodo.firstChild.data = "D7 on";                                    <!-- change the text on the button
+	    paramStr = "7h";											     <!-- now send the 1h to the photon
+		var requestURL = "https://api.particle.io/v1/devices/" +deviceID + "/" + setFunc + "/";
+			$.post( requestURL, { params: paramStr, access_token: accessToken },function( data ) {
+		//alert( "Data Loaded: " + data );
+		obj = JSON.parse(data);
+		document.getElementById("Return").innerHTML = obj.return_value;
+		});
+	  } else {
+	  var bodo=document.getElementById("D7button");
+	  bodo.style.backgroundColor = 'red';
+	  document.getElementById("D7button").setAttribute("value","OFF");
+	  bodo.firstChild.data = "D7 off";
+		paramStr = "7l";
+		var requestURL = "https://api.particle.io/v1/devices/" +deviceID + "/" + setFunc + "/";
+				$.post( requestURL, { params: paramStr, access_token: accessToken },function( data ) {
+		//alert( "Data Loaded: " + data );
+		obj = JSON.parse(data);
+		document.getElementById("Return").innerHTML = obj.return_value;
+		});
+	  }<!-- end if/else
+	var x = document.getElementById("D7button").getAttribute("value");  <!-- get the value of the button  
+	document.getElementById("demo").innerHTML = x;                      <!-- show the value on the web page
+   } <!-- end function
+
+	</script>
+	
+		<div id = "textmain;" style = "float: left; margin: 0; margin-bottom: 7px; padding: 0px; margin-right: 40px;">
+			<h2>PHOTON</h2>
+
+			<!--<div>
+            <p>The buttons will alternate between </a><a style ="color: green"> green (ON) </a><a style ="color: red">and red (OFF) </a><a>on each button press.</p>
+            <p>The temperature / humidity data is from a <a style ="color: red">DHT22 </a><a>sensor</p>
+            <p>Prepared by A Parker 2015 &copy;</p>
+			</div>-->
+			 <!--<a href="Embedded Systems Help Page.html">Visit our HELP page</a>--> 
+		</div>
+	    <div>
+		<!-- Spark.variable("temperature", &sparkTempF, DOUBLE); -->		
+		<span><h3>Temperature / Humidity updates at 10s intervals</h3></span>		
+		<span id="temp">Waiting for T &deg C data...</span><br>		
+		<br>
+		<span id="humi">Waiting for H &#37 RH data...</span><br>
+		<span id="tstamp"></span>
+	    <br><br>
+	    <img src="wombat2.png" style="width:240px;height:130px">
+        </div>
+		<!--return value from POST -->
+		<div id = "Return" style = "float: left; margin: 0; margin-bottom: 7px; padding: 4px; margin-right: 40px;">
+		
+    <script type="text/javascript">
+
+      window.setInterval(function() {
+
+        <!--var deviceID    = "53ff6a066667574818582067"; // SparkCore
+		<!--var deviceID    = "1f0029001347343339383037"; // APhome
+		<!--var deviceID    = "32002e000447343232363230"; // Photon
+        <!--var accessToken = "c4da11fb948f83b9976009501f01a8f3a8d72451";
+		var deviceID    = "1f0029001347343339383037"; //CORE
+        var accessToken = "ad630c73f52daa9eef2c187aa29d5b0a024cbe33";
+        var varName1 = "temp";
+		var varName2 = "humi";
+		var varName3 = "tempHum";
+
+		requestURL = "https://api.particle.io/v1/devices/" + deviceID + "/" + varName1 + "/?access_token=" + accessToken;
+        $.getJSON(requestURL, function(json) {
+  				 document.getElementById("temp").innerHTML = parseFloat(json.result).toFixed(2) + "&deg;C";
+                 document.getElementById("temp").style.fontSize = "30px";
+                });
+				 
+		requestURL = "https://api.particle.io/v1/devices/" + deviceID + "/" + varName2 + "/?access_token=" + accessToken;
+        $.getJSON(requestURL, function(json) {
+		         document.getElementById("humi").innerHTML = parseFloat(json.result).toFixed(2) + "&#37; RH";
+				 document.getElementById("humi").style.fontSize = "30px";
+                document.getElementById("tstamp").innerHTML = json.coreInfo.last_heard;
+                 });
+				 
+		<!--requestURL = "https://api.particle.io/v1/devices/" + deviceID + "/" + varName3 + "/?access_token=" + accessToken; // CORE ONLY
+       <!-- $.getJSON(requestURL, function(json) {
+				 // format of:  "result": "{\"temp\":24.70,\"humi\":28.70}",
+				 
+		        <!-- var text  = json.result;
+		        <!-- p = JSON.parse(text);
+		        <!-- document.getElementById("temp").innerHTML = p.temp + "&deg; C";
+				<!-- document.getElementById("humi").innerHTML = p.humi + "&#37; RH";
+				 
+				<!-- document.getElementById("temp").style.fontSize = "20px";
+				 <!--document.getElementById("humi").style.fontSize = "20px";
+                <!-- document.getElementById("tstamp").innerHTML = json.coreInfo.last_heard;
+				 
+                <!-- });
+				 
+    }, 10000);                                                <!-- 10 second delay in getting temp/humidity information
+    </script>
+	
+</body>
+</html>
