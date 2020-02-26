@@ -1,0 +1,16 @@
+{
+    "WifiNetwork":[
+        {
+            "ssid":"iiNet7F89AA",
+            "password":"7E3CK5FQJTAY576"
+        },
+        {
+            "ssid":"officenet",
+            "password":"admin1"   
+        },
+        {
+            "ssid":"iPhone(Johny)",
+            "password":"12345"
+        }
+    ]
+}
