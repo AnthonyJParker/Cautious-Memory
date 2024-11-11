@@ -1,7 +1,7 @@
 # Cautious-Memory
 My code on various PIC32 boards
 
-Using UECIDE https://uecide.org/about
+Using UECIDE
 
 Projects for the Olimex PinguinoOTG PIC32MX440
 
